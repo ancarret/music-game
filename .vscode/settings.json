@@ -1,0 +1,37 @@
+{
+  // === Proyecto de aprendizaje: el código lo escribo yo ===
+  // Copilot y las sugerencias inline (texto gris que completa bloques enteros) quedan
+  // desactivados en este workspace. En otros proyectos siguen funcionando con normalidad.
+  "github.copilot.enable": {
+    "*": false,
+    "java": false,
+    "markdown": false,
+    "plaintext": false
+  },
+  "github.copilot.nextEditSuggestions.enabled": false,
+  "editor.inlineSuggest.enabled": false,
+
+  // Enter nunca acepta una sugerencia: hace salto de línea y punto.
+  // Para aceptar una sugerencia hay que pulsar Tab a propósito.
+  "editor.acceptSuggestionOnEnter": "off",
+  "editor.tabCompletion": "off",
+
+  // Nada de snippets que generen constructores/métodos completos de golpe.
+  "editor.snippetSuggestions": "none",
+  "java.postfix.enabled": false,
+
+  // IntelliSense de Java SÍ sigue activo (ver qué métodos existe en String, etc. es
+  // parte de aprender la API), pero no salta solo: se invoca con Ctrl+Space.
+  "editor.quickSuggestions": {
+    "other": false,
+    "comments": false,
+    "strings": false
+  },
+  "editor.suggestOnTriggerCharacters": false,
+
+  // Los errores en rojo se mantienen: son el feedback del compilador y sí enseñan.
+  "java.errors.incompleteClasspath.severity": "warning",
+
+  // Guardado automático desactivado aquí: quiero controlar cuándo compilo.
+  "files.autoSave": "afterDelay"
+}

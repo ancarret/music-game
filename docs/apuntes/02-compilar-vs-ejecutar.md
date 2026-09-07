@@ -47,3 +47,27 @@ En Java, `java Main` arranca la **JVM** (Java Virtual Machine), que:
 
 Nota: en `java Main` se pone el nombre de la **clase**, sin extensión — no es un nombre de archivo,
 es el nombre que la JVM busca dentro del `.class` para arrancar la ejecución.
+
+## Con varias clases: `javac` busca las demás relativas a donde lo ejecutas, no al archivo
+
+Error real: compilar `javac src/Main.java` **desde la raíz del proyecto** da
+`error: cannot find symbol` sobre `Player` e `Instrument`, aunque esos archivos estén justo al lado
+de `Main.java` dentro de `src/`.
+
+Causa: al indicarle una ruta, `javac` busca las clases que le faltan a partir de la carpeta desde la
+que se ejecuta el comando (la raíz), no a partir de la carpeta donde vive el archivo indicado
+(`src/`). Como en la raíz no hay nada, no las encuentra.
+
+Dos formas correctas:
+```powershell
+# Opción A: entrar en la carpeta y compilar todo lo que haga falta
+cd src
+javac Main.java Player.java Instrument.java
+java Main
+
+# Opción B: sin moverte, pasando la ruta completa de cada archivo
+javac src/Main.java src/Player.java src/Instrument.java
+```
+
+Regla práctica: **cuando hay más de una clase, se listan todas en el mismo `javac`**. No confiar en
+que las encuentre solo.

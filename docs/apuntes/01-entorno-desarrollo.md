@@ -48,9 +48,43 @@ Un solo paquete de extensiones que instala:
 - Git 2.49 ✅
 - VS Code con Extension Pack for Java instalado ✅
 
-## Pendiente para otra máquina (ej. el Dell)
-Al llegar a una máquina nueva, comprobar en orden:
+## Estado comprobado (2026-09-06, PC Windows personal)
+- Liberica JDK 21.0.12 Full ✅, instalado con `winget install BellSoft.LibericaJDK.21.Full`
+- Git 2.52 ✅
+- VS Code + Extension Pack for Java ✅ (`code --install-extension vscjava.vscode-java-pack`)
+- `JAVA_HOME` sin setear — irrelevante hasta que aparezca Maven (Fase 5)
+- Copilot y autocompletado desactivados en `.vscode/settings.json` solo para este repo: aquí el
+  código lo escribo yo. IntelliSense sigue disponible a mano con `Ctrl+Space`.
+
+## Checklist para una máquina nueva
 1. `java -version` y `javac -version` → debe aparecer una versión 21.x. Si no, instalar un JDK 21 LTS.
 2. `git --version` → si falta, instalar Git.
-3. VS Code + extensión "Extension Pack for Java" (la busco por ese nombre exacto en el marketplace).
+3. VS Code + extensión "Extension Pack for Java" (por ese nombre exacto en el marketplace).
 4. Clonar/copiar este repo.
+
+## El PATH se lee al arrancar, no en tiempo real
+Error visto: tras instalar el JDK, la terminal seguía diciendo
+`javac: The term 'javac' is not recognized...`.
+
+Causa: el PATH se carga **cuando arranca el proceso**. Una terminal abierta antes de la instalación
+conserva la lista antigua y para ella ese programa no existe.
+
+Detalle importante: **abrir una terminal nueva dentro de VS Code no basta**, porque hereda el entorno
+del proceso padre (el propio VS Code, que también arrancó antes). Hay que **cerrar y reabrir VS Code
+entero**.
+
+Parche para refrescar solo la terminal actual, sin cerrar nada:
+```powershell
+$env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')
+```
+
+## Compilar con varias clases
+Desde la carpeta que contiene los `.java`:
+```powershell
+cd src
+javac Main.java Player.java
+java Main
+```
+`java Main` lleva el nombre de la **clase**, sin extensión. Si se compila desde la raíz
+(`javac src/Main.java`), el `.class` queda dentro de `src/` y `java Main` desde la raíz no lo
+encuentra.
